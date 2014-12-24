@@ -1,0 +1,20 @@
+{
+  "name": "blind",
+  "version": "0.0.1",
+  "authors": [
+    "Michal Brašna <michal.brasna@socialbakers.com>"
+  ],
+  "description": "App for blind",
+  "keywords": [
+    "blind"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
