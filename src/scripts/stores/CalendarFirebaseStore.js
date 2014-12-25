@@ -37,8 +37,7 @@ CalendarFirebaseStore.dispatchToken = AppDispatcher.register(function(payload) {
   switch(action.type) {
 
     case CalendarActionConstants.LOAD_DATA:
-      _events = action.data;
-      calendarRef.set(_events);
+      calendarRef.set(action.data);
       break;
 
     case CalendarActionConstants.SAVE_DATA:
@@ -47,22 +46,51 @@ CalendarFirebaseStore.dispatchToken = AppDispatcher.register(function(payload) {
       calendarRef.push(event);
       break;
 
+    case CalendarActionConstants.REMOVE_DATA:
+      var event = action.data;
+      calendarRef.child(event.uid).remove();
+      break;
+
     default:
   }
 
 });
 
-calendarRef.on('value', function(snapshot) {
-  var events = [];
+calendarRef.on('child_changed', function(snapshot) {
   var data = snapshot.val();
-  for (var key in data) {
-    data[key]['uid'] = key
-    events.push(data[key]);
+  data.uid = snapshot.key();
+  var index = _events.indexOf(data);
+  if (index === -1) {
+    return;
   }
-  _events = events;
+  _events.splice(index, 1, data);
   CalendarFirebaseStore.emitChange();
 }, function(err) {
-  console.log('Failed to read from Firebase: ' + err.code);
+  console.log('Failed to get child_changed event from Firebase: ' + err.code);
+});
+
+calendarRef.on('child_removed', function(snapshot) {
+  var data = snapshot.val();
+  data.uid = snapshot.key();
+  var length = _events.length;
+  for (var i = 0; i < length; i++) {
+    if (_events[i].uid === data.uid) {
+      _events.splice(i, 1);
+      CalendarFirebaseStore.emitChange();
+      break;
+    }
+  }
+}, function(err) {
+  console.log('Failed to get child_removed event from Firebase: ' + err.code);
+});
+
+calendarRef.on('child_added', function(snapshot) {
+  var data = snapshot.val();
+  data.uid = snapshot.key();
+  _events.push(data);
+  CalendarFirebaseStore.emitChange();
+}, function(err) {
+  console.log('Failed to get child_added event from Firebase: ' + err.code);
 });
 
 module.exports = CalendarFirebaseStore;

@@ -4,14 +4,14 @@ var Route = Router.Route;
 var NotFoundRoute = Router.NotFoundRoute;
 var DefaultRoute = Router.DefaultRoute;
 
-var App = require('./App');
 var Calendar = require('./Calendar');
+var CalendarList = require('./CalendarList');
 var CalendarAdd = require('./CalendarAdd');
 
 var routes = (
-  <Route path="/" handler={App}>
-    <Route name="add" handler={CalendarAdd} />
-    <DefaultRoute handler={Calendar} />
+  <Route path='/' handler={Calendar}>
+    <Route name='add' handler={CalendarAdd} />
+    <DefaultRoute handler={CalendarList} />
   </Route>
 );
 

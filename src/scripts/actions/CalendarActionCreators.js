@@ -17,4 +17,11 @@ module.exports = {
     });
   },
 
+  remove: function(data) {
+    AppDispatcher.handleServerAction({
+      type: CalendarActionConstants.REMOVE_DATA,
+      data: data
+    });
+  },
+
 };

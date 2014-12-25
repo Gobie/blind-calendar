@@ -4,63 +4,45 @@ var React = require('react/addons');
 var Router = require('react-router');
 var Navigation = Router.Navigation;
 var Link = Router.Link;
+var RouteHandler = Router.RouteHandler;
 var keymaster = require('keymaster');
-var CalendarFirebaseStore = require('../stores/CalendarFirebaseStore');
-var CalendarItem = require('./CalendarItem');
 
-require('../../styles/Calendar.styl');
+// Export React so the devtools can find it
+(window !== window.top ? window.top : window).React = React;
 
-var getStateFromStore = function() {
-  return {
-    events: CalendarFirebaseStore.getAll()
-  }
-}
+// CSS
+require('../../styles/normalize.css');
+require('../../../bower_components/bootstrap/dist/css/bootstrap.min.css');
+require('../../../bower_components/bootstrap/dist/css/bootstrap-theme.min.css');
+require('../../styles/main.styl');
 
 var Calendar = React.createClass({
   mixins: [Navigation],
-  getInitialState: function() {
-    return getStateFromStore();
-  },
   componentDidMount: function() {
-    CalendarFirebaseStore.listen(this._onChange);
-    keymaster('up, down', this._onMove);
-    keymaster('ctrl+alt+p', this._onAdd);
+    keymaster('ctrl+alt+s', this._navigateToList);
+    keymaster('ctrl+alt+p', this._navigateToAdd);
   },
   componentWillUnmount: function() {
     keymaster.unbind('ctrl+alt+p');
-    keymaster.unbind('up');
-    keymaster.unbind('down');
-    CalendarFirebaseStore.unlisten(this._onChange);
+    keymaster.unbind('ctrl+alt+s');
   },
-  _onChange: function() {
-    this.setState(getStateFromStore());
+  _navigateToList: function() {
+    this.transitionTo('/');
   },
-  _onAdd: function() {
+  _navigateToAdd: function() {
     this.transitionTo('/add');
   },
-  _onMove: function(e, handler) {
-    switch (handler.shortcut) {
-      case 'up':
-        console.log('up');
-        break;
-      case 'down':
-        console.log('down');
-        break;
-      default:
-        throw new Error('unhandled shortcut' + handler.shortcut);
-    }
-  },
-  render: function () {
-    var nodes = this.state.events.map(function(event) {
-      return <CalendarItem event={event} key={event.created} />
-    });
+  render: function() {
     return (
-      <div className='col-xs-12'>
-        <h1>Kalendář</h1>
-        <Link to='add' className='btn btn-primary col-xs-12' role='button'>Přidat událost</Link>
-        <div className='calendar-items col-xs-12'>
-          {nodes}
-        </div>
+      <div className='main container'>
+        <header>
+          <ul className='nav nav-pills'>
+            <li role='presentation' ><Link to='/'>Seznam událostí</Link></li>
+            <li role='presentation' ><Link to='add'>Vytvořit událost</Link></li>
+          </ul>
+        </header>
+
+        <RouteHandler {...this.props}/>
       </div>
     );
   }
