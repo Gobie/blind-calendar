@@ -3,6 +3,8 @@ var Router = require('react-router');
 var Route = Router.Route;
 var NotFoundRoute = Router.NotFoundRoute;
 var DefaultRoute = Router.DefaultRoute;
+var moment = require('moment');
+moment.locale('cs');
 
 var Calendar = require('./Calendar');
 var CalendarList = require('./CalendarList');

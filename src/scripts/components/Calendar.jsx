@@ -34,7 +34,7 @@ var Calendar = React.createClass({
   },
   render: function() {
     return (
-      <div className='main container'>
+      <div className='main container-fluid'>
         <header>
           <ul className='nav nav-pills'>
             <li role='presentation' ><Link to='/'>Seznam událostí</Link></li>
