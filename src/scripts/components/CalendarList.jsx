@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var React = require('react/addons');
 var Router = require('react-router');
 var Link = Router.Link;
@@ -16,39 +17,57 @@ var getStateFromStore = function() {
 
 var CalendarList = React.createClass({
   getInitialState: function() {
-    return getStateFromStore();
+    var state = getStateFromStore();
+    if (_.isUndefined(state.activeEventUid)) {
+      var firstEvent = _.first(state.events);
+      if (firstEvent) {
+        state.activeEventUid = firstEvent.uid;
+      }
+    }
+    return state;
   },
   componentDidMount: function() {
-    CalendarFirebaseStore.listen(this._onChange);
-    combokeys.bind(['up', 'down'], this._onMove);
+    CalendarFirebaseStore.listen(this.onChange);
+    combokeys.bind(['up', 'down'], this.onMove);
   },
   componentWillUnmount: function() {
     combokeys.unbind(['up','down']);
-    CalendarFirebaseStore.unlisten(this._onChange);
+    CalendarFirebaseStore.unlisten(this.onChange);
   },
-  _onChange: function() {
-    this.setState(getStateFromStore());
+  onChange: function() {
+    this.setState(this.getInitialState());
   },
-  _onMove: function(e, shortcut) {
-    switch (shortcut) {
-      case 'up':
-        console.log('up');
-        break;
-      case 'down':
-        console.log('down');
-        break;
-      default:
-        throw new Error('unhandled shortcut' + shortcut);
+  onMove: function(e, shortcut) {
+    var activeEventIndex = _.findIndex(this.state.events, function(event) {
+      return event.uid === this.state.activeEventUid;
+    }.bind(this))
+
+    if (activeEventIndex === -1) {
+      activeEventIndex = 0;
+    } else {
+      switch (shortcut) {
+        case 'up':
+          activeEventIndex = activeEventIndex > 0 ? activeEventIndex - 1 : this.state.events.length - 1
+          break;
+        case 'down':
+          activeEventIndex = (activeEventIndex + 1) % this.state.events.length;
+          break;
+        default:
+          throw new Error('Unhandled shortcut: ' + shortcut);
+      }
     }
+
+    this.setState({activeEventUid: this.state.events[activeEventIndex].uid});
   },
   render: function () {
     var nodes = this.state.events.map(function(event) {
-      return <CalendarItem event={event} key={event.uid} />
-    });
+      return <CalendarItem event={event} key={event.uid} active={event.uid === this.state.activeEventUid} />
+    }.bind(this));
+
     return (
-      <div className='col-xs-12'>
-        <h1>Seznam událostí</h1>
-        <div className='calendar-items col-xs-12'>
+      <div>
+        <h2>Seznam událostí</h2>
+        <div className='calendar-items col-xs-12' tabIndex='0' role='listbox'>
           {nodes}
         </div>
       </div>

@@ -7,7 +7,18 @@ var CalendarActionCreators = require('../actions/CalendarActionCreators');
 require('../../styles/CalendarItem.styl');
 
 var CalendarItem = React.createClass({
-  _onDelete: function() {
+  componentDidMount: function() {
+    this.focus();
+  },
+  componentDidUpdate: function() {
+    this.focus();
+  },
+  focus: function() {
+    if (this.props.active) {
+      this.refs.event.getDOMNode().focus();
+    }
+  },
+  onDelete: function() {
     CalendarActionCreators.remove({
       uid: this.props.event.uid
     });
@@ -26,14 +37,17 @@ var CalendarItem = React.createClass({
       timePlaceNode = <div className='time-and-place'><strong>{timePlace.join(', ')}</strong></div>;
     }
 
+    var tabIndex = this.props.active ? '0' : '-1';
+    var stylesRow = 'row calendar-item' + (this.props.active ? ' selected' : '');
+
     return (
-      <div className='row calendar-item'>
+      <div className={stylesRow} tabIndex={tabIndex} aria-selected={this.props.active} ref='event'>
         <div className='col-xs-10'>
           {timePlaceNode}
           <div className='description'>{this.props.event.description}</div>
         </div>
         <div className='col-xs-2'>
-          <button className='btn btn-danger btn-small pull-right' onClick={this._onDelete}>Smazat</button>
+          <button className='btn btn-danger btn-small pull-right' onClick={this.onDelete}>Smazat</button>
         </div>
       </div>
     );

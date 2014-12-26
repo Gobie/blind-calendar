@@ -21,9 +21,9 @@ var CalendarAdd = React.createClass({
       description: ''
     }
   },
-  _onSubmit: function (e) {
+  onSubmit: function (e) {
     e.preventDefault();
-    if (!this._isValid()) {
+    if (!this.isValid()) {
       return;
     }
 
@@ -35,17 +35,17 @@ var CalendarAdd = React.createClass({
     });
     this.transitionTo('/');
   },
-  _isValid: function() {
-    return this._isTimerangeValid();
+  isValid: function() {
+    return this.isTimerangeValid();
   },
-  _isTimerangeValid: function() {
+  isTimerangeValid: function() {
     return this.state.timerange === '' || moment(this.state.timerange, validFormats, true).isValid();
   },
   componentDidMount: function() {
     this.refs.timerange.getDOMNode().focus();
   },
   render: function () {
-    var timerangeValid = this._isTimerangeValid();
+    var timerangeValid = this.isTimerangeValid();
 
     var stylesTimerange = classSet({
       'form-group': true,
@@ -60,7 +60,7 @@ var CalendarAdd = React.createClass({
     return (
       <div className='col-12'>
         <h1>Kalendář - Vytvořit událost</h1>
-        <form className='calendar-form form-horizontal' role='form' onSubmit={this._onSubmit}>
+        <form className='calendar-form form-horizontal' role='form' onSubmit={this.onSubmit}>
           <div className={stylesTimerange}>
               <label htmlFor='timerange' className='control-label col-sm-1'>Kdy?</label>
               <div className='col-sm-11'>
