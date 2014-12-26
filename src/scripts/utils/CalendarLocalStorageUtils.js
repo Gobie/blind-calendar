@@ -1,6 +1,6 @@
 var CalendarActionCreators = require('../actions/CalendarActionCreators');
 
-module.exports = {
+var CalendarLocalStorageUtils = {
 
   loadDataFromLocalStorage: function() {
     var data = JSON.parse(localStorage.getItem('calendar')) || [];
@@ -13,3 +13,5 @@ module.exports = {
   },
 
 };
+
+module.exports = CalendarLocalStorageUtils;

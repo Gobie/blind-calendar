@@ -3,7 +3,6 @@
 var React = require('react/addons');
 var Router = require('react-router');
 var Link = Router.Link;
-var keymaster = require('keymaster');
 var CalendarFirebaseStore = require('../stores/CalendarFirebaseStore');
 var CalendarItem = require('./CalendarItem');
 
@@ -21,18 +20,17 @@ var CalendarList = React.createClass({
   },
   componentDidMount: function() {
     CalendarFirebaseStore.listen(this._onChange);
-    keymaster('up, down', this._onMove);
+    combokeys.bind(['up', 'down'], this._onMove);
   },
   componentWillUnmount: function() {
-    keymaster.unbind('up');
-    keymaster.unbind('down');
+    combokeys.unbind(['up','down']);
     CalendarFirebaseStore.unlisten(this._onChange);
   },
   _onChange: function() {
     this.setState(getStateFromStore());
   },
-  _onMove: function(e, handler) {
-    switch (handler.shortcut) {
+  _onMove: function(e, shortcut) {
+    switch (shortcut) {
       case 'up':
         console.log('up');
         break;
@@ -40,7 +38,7 @@ var CalendarList = React.createClass({
         console.log('down');
         break;
       default:
-        throw new Error('unhandled shortcut' + handler.shortcut);
+        throw new Error('unhandled shortcut' + shortcut);
     }
   },
   render: function () {

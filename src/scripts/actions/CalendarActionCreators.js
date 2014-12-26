@@ -5,21 +5,21 @@ module.exports = {
 
   receive: function(data) {
     AppDispatcher.handleServerAction({
-      type: CalendarActionConstants.LOAD_DATA,
+      type: CalendarActionConstants.LOAD,
       data: data
     });
   },
 
   save: function(data) {
     AppDispatcher.handleServerAction({
-      type: CalendarActionConstants.SAVE_DATA,
+      type: CalendarActionConstants.SAVE,
       data: data
     });
   },
 
   remove: function(data) {
     AppDispatcher.handleServerAction({
-      type: CalendarActionConstants.REMOVE_DATA,
+      type: CalendarActionConstants.REMOVE,
       data: data
     });
   },

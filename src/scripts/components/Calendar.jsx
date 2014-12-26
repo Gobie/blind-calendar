@@ -5,7 +5,6 @@ var Router = require('react-router');
 var Navigation = Router.Navigation;
 var Link = Router.Link;
 var RouteHandler = Router.RouteHandler;
-var keymaster = require('keymaster');
 
 // Export React so the devtools can find it
 (window !== window.top ? window.top : window).React = React;
@@ -14,17 +13,18 @@ var keymaster = require('keymaster');
 require('../../styles/normalize.css');
 require('../../../bower_components/bootstrap/dist/css/bootstrap.min.css');
 require('../../../bower_components/bootstrap/dist/css/bootstrap-theme.min.css');
-require('../../styles/main.styl');
+require('../../styles/Calendar.styl');
 
 var Calendar = React.createClass({
   mixins: [Navigation],
+  /** TODO mixin */
   componentDidMount: function() {
-    keymaster('ctrl+alt+s', this._navigateToList);
-    keymaster('ctrl+alt+p', this._navigateToAdd);
+    combokeys.bind('ctrl+alt+s', this._navigateToList);
+    combokeys.bind('ctrl+alt+p', this._navigateToAdd);
   },
   componentWillUnmount: function() {
-    keymaster.unbind('ctrl+alt+p');
-    keymaster.unbind('ctrl+alt+s');
+    combokeys.unbind('ctrl+alt+p');
+    combokeys.unbind('ctrl+alt+s');
   },
   _navigateToList: function() {
     this.transitionTo('/');

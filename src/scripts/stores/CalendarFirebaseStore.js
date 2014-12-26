@@ -36,17 +36,17 @@ CalendarFirebaseStore.dispatchToken = AppDispatcher.register(function(payload) {
 
   switch(action.type) {
 
-    case CalendarActionConstants.LOAD_DATA:
+    case CalendarActionConstants.LOAD:
       calendarRef.set(action.data);
       break;
 
-    case CalendarActionConstants.SAVE_DATA:
+    case CalendarActionConstants.SAVE:
       var event = action.data;
       event.created = _.now();
       calendarRef.push(event);
       break;
 
-    case CalendarActionConstants.REMOVE_DATA:
+    case CalendarActionConstants.REMOVE:
       var event = action.data;
       calendarRef.child(event.uid).remove();
       break;

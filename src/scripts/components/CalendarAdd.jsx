@@ -27,8 +27,9 @@ var CalendarAdd = React.createClass({
       return;
     }
 
+    var timerange = moment.utc(this.state.timerange, validFormats);
     CalendarActionCreators.save({
-      timerange: moment.utc(this.state.timerange, validFormats).format('x'),
+      timerange: timerange.isValid() ? timerange.format('x') : null,
       place: this.state.place,
       description: this.state.description
     });
