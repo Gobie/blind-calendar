@@ -39,16 +39,24 @@ var Calendar = React.createClass({
   },
   render: function() {
     return (
-      <div className='main container-fluid'>
+      <div className='container-fluid'>
         <header>
-          <h1>Kalendář</h1>
+          <h1>
+            <span className='glyphicon glyphicon-calendar' aria-hidden='true'></span>
+            Kalendář
+          </h1>
+        </header>
+
+        <nav>
           <ul className='nav nav-pills' role='menu'>
             <li role='presentation' className={this.getClassName('/')}><Link to='/' role='menuitem'>Seznam událostí</Link></li>
             <li role='presentation' className={this.getClassName('/add')}><Link to='add' role='menuitem'>Vytvořit událost</Link></li>
           </ul>
-        </header>
+        </nav>
 
-        <RouteHandler {...this.props}/>
+        <main className='content row'>
+          <RouteHandler {...this.props}/>
+        </main>
       </div>
     );
   }

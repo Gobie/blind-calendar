@@ -58,8 +58,8 @@ var CalendarAdd = React.createClass({
     });
 
     return (
-      <div className='col-12'>
-        <h1>Kalendář - Vytvořit událost</h1>
+      <div className='col-xs-12'>
+        <h2>Vytvořit událost</h2>
         <form className='calendar-form form-horizontal' role='form' onSubmit={this.onSubmit}>
           <div className={stylesTimerange}>
               <label htmlFor='timerange' className='control-label col-sm-1'>Kdy?</label>

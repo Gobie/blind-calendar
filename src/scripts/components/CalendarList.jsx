@@ -65,7 +65,7 @@ var CalendarList = React.createClass({
     }.bind(this));
 
     return (
-      <div>
+      <div className='calendar-list col-xs-12'>
         <h2>Seznam událostí</h2>
         <div className='calendar-items col-xs-12' tabIndex='0' role='listbox'>
           {nodes}
