@@ -15,20 +15,29 @@ module.exports = function (config) {
       cache: true,
       module: {
         loaders: [{
+          test: /\.jsx$/,
+          loader: 'jsx-loader?harmony'
+        }, {
           test: /\.css$/,
           loader: 'style!css'
         }, {
-          test: /\.gif/,
-          loader: 'url-loader?limit=10000&mimetype=image/gif'
+          test: /\.(jpg|png|gif)/,
+          loader: 'url-loader?limit=10000'
         }, {
-          test: /\.jpg/,
-          loader: 'url-loader?limit=10000&mimetype=image/jpg'
+          test: /bootstrap\/js\//,
+          loader: 'imports?jQuery=jquery'
         }, {
-          test: /\.png/,
-          loader: 'url-loader?limit=10000&mimetype=image/png'
+          test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+          loader: "url?limit=10000&minetype=application/font-woff"
         }, {
-          test: /\.jsx$/,
-          loader: 'jsx-loader'
+          test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+          loader: "url?limit=10000&minetype=application/octet-stream"
+        }, {
+          test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+          loader: "file"
+        }, {
+          test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+          loader: "url?limit=10000&minetype=image/svg+xml"
         }]
       }
     },

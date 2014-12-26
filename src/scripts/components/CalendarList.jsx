@@ -43,7 +43,7 @@ var CalendarList = React.createClass({
   },
   render: function () {
     var nodes = this.state.events.map(function(event) {
-      return <CalendarItem event={event} key={event.created} />
+      return <CalendarItem event={event} key={event.uid} />
     });
     return (
       <div className='col-xs-12'>
