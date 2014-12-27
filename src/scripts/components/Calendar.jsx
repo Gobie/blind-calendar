@@ -7,7 +7,7 @@ var Link = Router.Link;
 var State = Router.State;
 var RouteHandler = Router.RouteHandler;
 var Combokeys = require('combokeys');
-combokeys = new Combokeys(document);
+var combokeys = new Combokeys(document);
 
 // Export React so the devtools can find it
 (window !== window.top ? window.top : window).React = React;
