@@ -5,8 +5,6 @@ var NotFoundRoute = Router.NotFoundRoute;
 var DefaultRoute = Router.DefaultRoute;
 var moment = require('moment');
 moment.locale('cs');
-var Combokeys = require('combokeys');
-window.combokeys = new Combokeys(document);
 
 var Calendar = require('./Calendar');
 var CalendarList = require('./CalendarList');

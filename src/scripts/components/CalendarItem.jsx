@@ -2,7 +2,8 @@
 
 var React = require('react/addons');
 var moment = require('moment');
-var CalendarActionCreators = require('../actions/CalendarActionCreators');
+var Combokeys = require('combokeys');
+var combokeys = new Combokeys(document);
 
 require('../../styles/CalendarItem.styl');
 
@@ -18,10 +19,15 @@ var CalendarItem = React.createClass({
       this.refs.event.getDOMNode().focus();
     }
   },
+  onFocus: function() {
+    this.props.onSelect(this.props.event.uid);
+    combokeys.bind(['d', 'del'], this.onDelete);
+  },
+  onBlur: function() {
+    combokeys.unbind(['d', 'del']);
+  },
   onDelete: function() {
-    CalendarActionCreators.remove({
-      uid: this.props.event.uid
-    });
+    this.props.onDelete(this.props.event.uid);
   },
   render: function () {
     var timePlace = [];
@@ -32,22 +38,24 @@ var CalendarItem = React.createClass({
       timePlace.push(this.props.event.place);
     }
 
-    var timePlaceNode = '';
+    var timePlaceNode = 'nevyplněno';
     if (timePlace.length) {
-      timePlaceNode = <div className='time-and-place'><strong>{timePlace.join(', ')}</strong></div>;
+      timePlaceNode = timePlace.join(', ');
     }
 
     var tabIndex = this.props.active ? '0' : '-1';
     var stylesRow = 'row calendar-item' + (this.props.active ? ' selected' : '');
 
     return (
-      <div className={stylesRow} tabIndex={tabIndex} aria-selected={this.props.active} ref='event'>
-        <div className='col-xs-10'>
-          {timePlaceNode}
+      <div className={stylesRow} tabIndex={tabIndex} aria-selected={this.props.active} role='option' ref='event' onFocus={this.onFocus} onBlur={this.onBlur}>
+        <div className='col-sm-10'>
+          <div className='time-and-place'><strong>{timePlaceNode}</strong></div>
           <div className='description'>{this.props.event.description}</div>
         </div>
-        <div className='col-xs-2'>
-          <button className='btn btn-danger btn-small pull-right' onClick={this.onDelete}>Smazat</button>
+        <div className='col-sm-2'>
+          <div className='actions clearfix'>
+            <button className='btn btn-danger btn-small pull-right col-sm-12 col-xs-6' tabIndex='-1' onClick={this.onDelete}>Smazat</button>
+          </div>
         </div>
       </div>
     );

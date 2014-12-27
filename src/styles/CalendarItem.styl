@@ -1,16 +1,23 @@
+@import './common.styl'
+
 .calendar-item
-  border-bottom 1px solid silver
-  padding 1em 0
+  padding 0.5em 0
 
-  &:first-child
-    border-top 1px solid silver
+  .time-and-place
+    background-color $back-light-color
+    padding .5em
 
-.description
-  white-space pre
+  .description
+    white-space pre
+    padding .5em
 
-.calendar-item:active, .calendar-item:focus
-  background-color rgba(51, 122, 183, 0.1)
+  .btn-danger
+    opacity 0.65
 
-.calendar-item.selected
-  border-left 4px solid rgba(51, 122, 183, 1)
-  margin-left -19px
+  &:active, &:focus, &.selected
+    .time-and-place
+      background-color $main-color
+      color #fff
+
+    .btn-danger
+      opacity 1

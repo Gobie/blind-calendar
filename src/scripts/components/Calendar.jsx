@@ -6,6 +6,8 @@ var Navigation = Router.Navigation;
 var Link = Router.Link;
 var State = Router.State;
 var RouteHandler = Router.RouteHandler;
+var Combokeys = require('combokeys');
+combokeys = new Combokeys(document);
 
 // Export React so the devtools can find it
 (window !== window.top ? window.top : window).React = React;
@@ -54,7 +56,7 @@ var Calendar = React.createClass({
           </ul>
         </nav>
 
-        <main className='content row'>
+        <main className='content'>
           <RouteHandler {...this.props}/>
         </main>
       </div>

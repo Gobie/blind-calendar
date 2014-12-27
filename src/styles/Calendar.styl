@@ -1,8 +1,11 @@
+@import './common.styl'
+
 header
-  background-color rgba(51, 122, 183, 1)
-  padding 0.5em 3em
+  background-color $main-color
+  padding 0.1em 1em
+  @media (min-width: $screen-sm-min)
+    padding 0.5em 3em
   color #FFF
-  border-radius 1em 1em 0 0
   margin 1em 0 0 0
 
 header > h1 > .glyphicon
@@ -10,4 +13,7 @@ header > h1 > .glyphicon
 
 nav
   padding 0.5em 0
-  border-bottom 5px solid rgba(51, 122, 183, 1)
+  border-bottom 2px solid $main-color
+
+.content
+  padding-top 1em
