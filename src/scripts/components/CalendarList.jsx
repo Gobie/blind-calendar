@@ -100,8 +100,8 @@ var CalendarList = React.createClass({
 
     return (
       <div className='calendar-list'>
-        <h2 className='sr-only'>Seznam událostí</h2>
-        <div className='calendar-items' tabIndex='0' role='listbox' ref='items' onFocus={this.onFocus} onBlur={this.onBlur}>
+        <h2 id='calendar-items-label' className='sr-only'>Seznam událostí</h2>
+        <div className='calendar-items' tabIndex='0' role='listbox' ref='items' onFocus={this.onFocus} onBlur={this.onBlur} aria-labelledby='calendar-items-label'>
           {nodes}
         </div>
       </div>

@@ -54,7 +54,7 @@ var CalendarItem = React.createClass({
         </div>
         <div className='col-sm-2'>
           <div className='actions clearfix'>
-            <button className='btn btn-danger btn-small pull-right col-sm-12 col-xs-6' tabIndex='-1' onClick={this.onDelete}>Smazat</button>
+            <button className='btn btn-danger btn-small pull-right col-sm-12 col-xs-6' tabIndex='-1' role='presentation' onClick={this.onDelete}>Smazat</button>
           </div>
         </div>
       </div>
