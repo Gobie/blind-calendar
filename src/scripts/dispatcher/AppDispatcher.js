@@ -1,6 +1,6 @@
 'use strict';
 
-var Dispatcher = require('react-dispatcher');
+var Dispatcher = require('flux').Dispatcher;
 var assign = require('react/lib/Object.assign');
 var AppDispatcher = assign(new Dispatcher(), {
 
