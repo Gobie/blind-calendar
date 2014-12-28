@@ -32,7 +32,7 @@ var CalendarItem = React.createClass({
   render: function () {
     var timePlace = [];
     if (this.props.event.timerange) {
-      timePlace.push(moment.utc(this.props.event.timerange, 'x').format('D.M.YYYY, dddd'));
+      timePlace.push(moment.utc(this.props.event.timerange, 'x').format('D MMMM YYYY, dddd'));
     }
     if (this.props.event.place) {
       timePlace.push(this.props.event.place);
@@ -54,7 +54,7 @@ var CalendarItem = React.createClass({
         </div>
         <div className='col-sm-2'>
           <div className='actions clearfix'>
-            <button className='btn btn-danger btn-small pull-right col-sm-12 col-xs-6' tabIndex='-1' role='presentation' onClick={this.onDelete}>Smazat</button>
+            <button className='btn btn-danger btn-small pull-right col-sm-12 col-xs-6' tabIndex='-1' onClick={this.onDelete}>Smazat</button>
           </div>
         </div>
       </div>

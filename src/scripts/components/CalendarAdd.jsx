@@ -48,14 +48,17 @@ var CalendarAdd = React.createClass({
     this.refs.timerange.getDOMNode().focus();
   },
   render: function () {
+    var timerangeValid = this.isTimerangeValid();
+    var descriptionValid = this.isDescriptionValid()
+
     var stylesTimerange = classSet({
       'form-group': true,
-      'has-error': !this.isTimerangeValid()
+      'has-error': !timerangeValid
     });
 
     var stylesDescription = classSet({
       'form-group': true,
-      'has-error': !this.isDescriptionValid()
+      'has-error': !descriptionValid
     });
 
     var stylesSave = classSet({
@@ -69,11 +72,11 @@ var CalendarAdd = React.createClass({
         <h2 className='sr-only'>Vytvořit událost</h2>
         <form className='calendar-form form-horizontal' role='form' onSubmit={this.onSubmit}>
           <div className={stylesTimerange}>
-              <label htmlFor='timerange' className='control-label col-sm-1'>Datum</label>
+              <label id='timerange-labeledby' htmlFor='timerange' className='control-label col-sm-1'>Datum</label>
               <div className='col-sm-11'>
-                <input type='text' className='form-control' id='timerange' ref='timerange' placeholder='1.1.2014' aria-required='false' aria-describedby='timerangeStatus' valueLink={this.linkState('timerange')} />
+                <input type='text' className='form-control' id='timerange' ref='timerange' placeholder='1.1.2014' aria-required='false' aria-invalid={!timerangeValid} aria-labeledby='timerange-labeledby' aria-describedby='timerange-describedby' valueLink={this.linkState('timerange')} />
               </div>
-              <div className='col-sm-offset-1 col-sm-11 help-block'><small>Validní formáty jsou {validFormats.join(', ')}.</small></div>
+              <div id='timerange-describedby' className='col-sm-offset-1 col-sm-11 help-block'><small>Validní formáty jsou {validFormats.join(', ')}.</small></div>
           </div>
           <div className='form-group'>
               <label htmlFor='place' className='control-label col-sm-1'>Místo</label>
@@ -82,11 +85,11 @@ var CalendarAdd = React.createClass({
               </div>
           </div>
           <div className={stylesDescription}>
-              <label htmlFor='description' className='control-label col-sm-1'>Popis</label>
+              <label id='description-labeledby' htmlFor='description' className='control-label col-sm-1'>Popis</label>
               <div className='col-sm-11'>
-                <textarea className='form-control' rows='5' id='description' ref='description' required aria-required='true' valueLink={this.linkState('description')} />
+                <textarea className='form-control' rows='5' id='description' ref='description' required aria-required='true' aria-invalid={!descriptionValid} aria-labeledby='description-labeledby' aria-describedby='description-describedby' valueLink={this.linkState('description')} />
               </div>
-              <div className='col-sm-offset-1 col-sm-11 help-block'><small>Popis musí být vyplněn.</small></div>
+              <div id='description-describedby' className='col-sm-offset-1 col-sm-11 help-block'><small>Popis události.</small></div>
           </div>
           <div className='col-sm-offset-1 row'>
             <button className={stylesSave}>Uložit</button>

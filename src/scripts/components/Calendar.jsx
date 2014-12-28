@@ -22,12 +22,12 @@ var Calendar = React.createClass({
   mixins: [Navigation, State],
   /** TODO mixin */
   componentDidMount: function() {
-    combokeys.bind('ctrl+alt+s', this.navigateToList);
-    combokeys.bind('ctrl+alt+p', this.navigateToAdd);
+    combokeys.bind(['ctrl+alt+s', '1'], this.navigateToList);
+    combokeys.bind(['ctrl+alt+p', '2'], this.navigateToAdd);
   },
   componentWillUnmount: function() {
-    combokeys.unbind('ctrl+alt+p');
-    combokeys.unbind('ctrl+alt+s');
+    combokeys.unbind(['ctrl+alt+p', '2']);
+    combokeys.unbind(['ctrl+alt+s', '1']);
   },
   navigateToList: function() {
     this.transitionTo('/');
@@ -41,7 +41,7 @@ var Calendar = React.createClass({
   },
   render: function() {
     return (
-      <div className='container-fluid'>
+      <div role='application' className='container-fluid'>
         <header>
           <h1>
             <span className='glyphicon glyphicon-calendar' aria-hidden='true'></span>
@@ -49,14 +49,14 @@ var Calendar = React.createClass({
           </h1>
         </header>
 
-        <nav>
-          <ul className='nav nav-pills' role='menu'>
-            <li role='presentation' className={this.getClassName('/')}><Link to='/' role='menuitem'>Seznam událostí</Link></li>
-            <li role='presentation' className={this.getClassName('/add')}><Link to='add' role='menuitem'>Vytvořit událost</Link></li>
+        <nav role='navigation'>
+          <ul className='nav nav-pills'>
+            <li role='presentation' className={this.getClassName('/')}><Link to='/'>Seznam událostí</Link></li>
+            <li role='presentation' className={this.getClassName('/add')}><Link to='add'>Vytvořit událost</Link></li>
           </ul>
         </nav>
 
-        <main className='content'>
+        <main className='content' role='main'>
           <RouteHandler {...this.props}/>
         </main>
       </div>
