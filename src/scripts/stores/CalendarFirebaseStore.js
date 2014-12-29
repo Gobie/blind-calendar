@@ -43,7 +43,7 @@ CalendarFirebaseStore.dispatchToken = AppDispatcher.register(function(payload) {
     case CalendarActionConstants.SAVE:
       var event = action.data;
       event.created = _.now();
-      event['.priority'] = event.timerange;
+      event['.priority'] = -event.timerange;
       calendarRef.push(event);
       break;
 
@@ -99,8 +99,8 @@ calendarRef.orderByPriority().on('child_added', function(snapshot) {
   var index = _.findIndex(_events, function(event) {
     return event.priority <= data.priority;
   });
-  if (index < 1) {
-    index = 0;
+  if (index === -1) {
+    index = _events.length;
   }
   _events.splice(index, 0, data);
   CalendarFirebaseStore.emitChange();
