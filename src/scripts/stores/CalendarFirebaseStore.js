@@ -43,6 +43,7 @@ CalendarFirebaseStore.dispatchToken = AppDispatcher.register(function(payload) {
     case CalendarActionConstants.SAVE:
       var event = action.data;
       event.created = _.now();
+      event['.priority'] = event.timerange;
       calendarRef.push(event);
       break;
 
@@ -56,7 +57,7 @@ CalendarFirebaseStore.dispatchToken = AppDispatcher.register(function(payload) {
 
 });
 
-calendarRef.on('child_changed', function(snapshot) {
+calendarRef.orderByPriority().on('child_changed', function(snapshot) {
   var data = snapshot.val();
   data.uid = snapshot.key();
   var index = _.findIndex(_events, function(event) {
@@ -71,7 +72,7 @@ calendarRef.on('child_changed', function(snapshot) {
   console.log('Failed to get child_changed event from Firebase: ' + err.code);
 });
 
-calendarRef.on('child_removed', function(snapshot) {
+calendarRef.orderByPriority().on('child_removed', function(snapshot) {
   var uid = snapshot.key();
   var index = _.findIndex(_events, function(event) {
     return event.uid === uid;
@@ -85,16 +86,23 @@ calendarRef.on('child_removed', function(snapshot) {
   console.log('Failed to get child_removed event from Firebase: ' + err.code);
 });
 
-calendarRef.on('child_added', function(snapshot) {
+calendarRef.orderByPriority().on('child_added', function(snapshot) {
   var data = snapshot.val();
   data.uid = snapshot.key();
+  data.priority = snapshot.getPriority();
   var index = _.findIndex(_events, function(event) {
     return event.uid === data.uid;
   });
   if (index !== -1) {
     return;
   }
-  _events.push(data);
+  var index = _.findIndex(_events, function(event) {
+    return event.priority <= data.priority;
+  });
+  if (index < 1) {
+    index = 0;
+  }
+  _events.splice(index, 0, data);
   CalendarFirebaseStore.emitChange();
 }, function(err) {
   console.log('Failed to get child_added event from Firebase: ' + err.code);
