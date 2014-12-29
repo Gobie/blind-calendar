@@ -48,14 +48,9 @@ var CalendarItem = React.createClass({
 
     return (
       <div className={stylesRow} tabIndex={tabIndex} aria-selected={this.props.active} role='option' ref='event' onFocus={this.onFocus} onBlur={this.onBlur}>
-        <div className='col-sm-10'>
+        <div className='col-sm-12'>
           <div className='time-and-place'><strong>{timePlaceNode}</strong></div>
           <div className='description'>{this.props.event.description}</div>
-        </div>
-        <div className='col-sm-2'>
-          <div className='actions clearfix'>
-            <button className='btn btn-danger btn-small pull-right col-sm-12 col-xs-6' tabIndex='-1' onClick={this.onDelete}>Smazat</button>
-          </div>
         </div>
       </div>
     );
