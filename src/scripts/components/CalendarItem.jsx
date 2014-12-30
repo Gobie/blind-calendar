@@ -35,7 +35,7 @@ var CalendarItem = React.createClass({
   render: function () {
     var timePlace = [];
     if (this.props.event.timerange) {
-      timePlace.push(moment.utc(this.props.event.timerange, 'x').format('D MMMM YYYY, dddd'));
+      timePlace.push(moment.utc(this.props.event.timerange, 'x').format('D MMMM YYYY H:mm, dddd'));
     }
     if (this.props.event.place) {
       timePlace.push(this.props.event.place);

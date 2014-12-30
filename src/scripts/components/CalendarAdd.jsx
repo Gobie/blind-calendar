@@ -10,7 +10,12 @@ var moment = require('moment');
 
 require('../../styles/CalendarAdd.styl');
 
-var validFormats = ['D.M.YYYY', 'D M YYYY', 'D.M.YY', 'D M YY', 'D.M.', 'D M'];
+var validFormats = [
+  'D.M',
+  'D.M.',
+  'D.M.YYYY',
+  'D.M.YYYY H:mm'
+];
 
 var CalendarAdd = React.createClass({
   mixins: [Navigation, LinkedStateMixin],
