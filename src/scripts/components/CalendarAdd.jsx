@@ -78,16 +78,16 @@ var CalendarAdd = React.createClass({
         <h2 className='sr-only'>Vytvořit událost</h2>
         <form className='calendar-form form-horizontal' role='form' onSubmit={this.onSubmit}>
           <div className={stylesTimerange}>
-              <label id='timerange-labeledby' htmlFor='timerange' className='control-label col-sm-1'>Datum</label>
+              <label id='timerange-labelledby' htmlFor='timerange' className='control-label col-sm-1'>Datum</label>
               <div className='col-sm-11'>
-                <input type='text' className='form-control' id='timerange' ref='timerange' placeholder='1.1.2014' aria-required='false' aria-invalid={!timerangeValid} aria-labeledby='timerange-labeledby' aria-describedby='timerange-describedby' valueLink={this.linkState('timerange')} />
+                <input type='text' className='form-control' id='timerange' ref='timerange' placeholder='1.1.2014' aria-required='false' aria-invalid={timerangeValid ? undefined : true} aria-labelledby='timerange-labelledby' aria-describedby='timerange-describedby' valueLink={this.linkState('timerange')} />
               </div>
               <div id='timerange-describedby' className='col-sm-offset-1 col-sm-11 help-block'><small>Validní formáty jsou {validFormats.join(', ')}.</small></div>
           </div>
           <div className={stylesDescription}>
-              <label id='description-labeledby' htmlFor='description' className='control-label col-sm-1'>Popis</label>
+              <label id='description-labelledby' htmlFor='description' className='control-label col-sm-1'>Popis</label>
               <div className='col-sm-11'>
-                <textarea className='form-control' rows='5' id='description' ref='description' required aria-required='true' aria-invalid={!descriptionValid} aria-labeledby='description-labeledby' aria-describedby='description-describedby' valueLink={this.linkState('description')} />
+                <textarea className='form-control' rows='5' id='description' ref='description' required aria-required='true' aria-invalid={descriptionValid ? undefined : true} aria-labelledby='description-labelledby' aria-describedby='description-describedby' valueLink={this.linkState('description')} />
               </div>
               <div id='description-describedby' className='col-sm-offset-1 col-sm-11 help-block'><small>Popis události.</small></div>
           </div>
