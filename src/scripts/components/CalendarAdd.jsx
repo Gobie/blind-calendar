@@ -22,7 +22,6 @@ var CalendarAdd = React.createClass({
   getInitialState: function() {
     return {
       timerange: '',
-      place: '',
       description: ''
     }
   },
@@ -35,7 +34,6 @@ var CalendarAdd = React.createClass({
     var timerange = moment.utc(this.state.timerange, validFormats);
     CalendarActionCreators.save({
       timerange: timerange.isValid() ? timerange.format('x') : null,
-      place: this.state.place,
       description: this.state.description
     });
     this.transitionTo('/');
@@ -85,12 +83,6 @@ var CalendarAdd = React.createClass({
                 <input type='text' className='form-control' id='timerange' ref='timerange' placeholder='1.1.2014' aria-required='false' aria-invalid={!timerangeValid} aria-labeledby='timerange-labeledby' aria-describedby='timerange-describedby' valueLink={this.linkState('timerange')} />
               </div>
               <div id='timerange-describedby' className='col-sm-offset-1 col-sm-11 help-block'><small>Validní formáty jsou {validFormats.join(', ')}.</small></div>
-          </div>
-          <div className='form-group'>
-              <label htmlFor='place' className='control-label col-sm-1'>Místo</label>
-              <div className='col-sm-11'>
-                <input type='text' className='form-control' id='place' ref='place' placeholder='Praha' aria-required='false' valueLink={this.linkState('place')} />
-              </div>
           </div>
           <div className={stylesDescription}>
               <label id='description-labeledby' htmlFor='description' className='control-label col-sm-1'>Popis</label>

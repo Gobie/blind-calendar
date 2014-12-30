@@ -33,17 +33,9 @@ var CalendarItem = React.createClass({
     this.props.onDelete(this.props.event.uid);
   },
   render: function () {
-    var timePlace = [];
+    var timeNode = 'nevyplněno';
     if (this.props.event.timerange) {
-      timePlace.push(moment.utc(this.props.event.timerange, 'x').format('D MMMM YYYY H:mm, dddd'));
-    }
-    if (this.props.event.place) {
-      timePlace.push(this.props.event.place);
-    }
-
-    var timePlaceNode = 'nevyplněno';
-    if (timePlace.length) {
-      timePlaceNode = timePlace.join(', ');
+      timeNode = moment.utc(this.props.event.timerange, 'x').format('D MMMM YYYY H:mm, dddd');
     }
 
     var tabIndex = this.props.active ? '0' : '-1';
@@ -52,7 +44,7 @@ var CalendarItem = React.createClass({
     return (
       <div className={stylesRow} tabIndex={tabIndex} aria-selected={this.props.active} role='option' ref='event' onFocus={this.onFocus} onBlur={this.onBlur}>
         <div className='col-sm-12'>
-          <div className='time-and-place'><strong>{timePlaceNode}</strong></div>
+          <div className='time'><strong>{timeNode}</strong></div>
           <div className='event-content'>{this.props.event.description}</div>
         </div>
       </div>
