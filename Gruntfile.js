@@ -104,6 +104,12 @@ module.exports = function (grunt) {
           ]
         }]
       }
+    },
+
+    shell: {
+      deploy: {
+        command: 'git commit -am \'build\' && git push heroku && exit 0'
+      }
     }
   });
 
@@ -121,6 +127,8 @@ module.exports = function (grunt) {
   grunt.registerTask('test', ['karma']);
 
   grunt.registerTask('build', ['clean', 'copy', 'webpack']);
+
+  grunt.registerTask('deploy', ['build', 'shell:deploy']);
 
   grunt.registerTask('default', []);
 };
