@@ -29,6 +29,10 @@ var CalendarList = React.createClass({
   },
   componentDidMount: function() {
     CalendarFirebaseStore.listen(this.onChange);
+      var node = this.refs.items.getDOMNode();
+      setTimeout(function() {
+        node.focus();
+      }, 10);
   },
   componentWillUnmount: function() {
     CalendarFirebaseStore.unlisten(this.onChange);
