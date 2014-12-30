@@ -45,7 +45,9 @@ var CalendarAdd = React.createClass({
     return this.state.description !== '';
   },
   componentDidMount: function() {
-    this.refs.timerange.getDOMNode().focus();
+    var timerangeNode = this.refs.timerange.getDOMNode();
+    timerangeNode.blur();
+    timerangeNode.focus();
   },
   render: function () {
     var timerangeValid = this.isTimerangeValid();

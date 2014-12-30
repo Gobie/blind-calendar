@@ -50,7 +50,7 @@ var CalendarItem = React.createClass({
       <div className={stylesRow} tabIndex={tabIndex} aria-selected={this.props.active} role='option' ref='event' onFocus={this.onFocus} onBlur={this.onBlur}>
         <div className='col-sm-12'>
           <div className='time-and-place'><strong>{timePlaceNode}</strong></div>
-          <div className='description'>{this.props.event.description}</div>
+          <div className='event-content'>{this.props.event.description}</div>
         </div>
       </div>
     );
