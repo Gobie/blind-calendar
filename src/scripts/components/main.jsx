@@ -8,11 +8,9 @@ moment.locale('cs');
 
 var Calendar = require('./Calendar');
 var CalendarList = require('./CalendarList');
-var CalendarAdd = require('./CalendarAdd');
 
 var routes = (
   <Route path='/' handler={Calendar}>
-    <Route name='add' handler={CalendarAdd} />
     <DefaultRoute handler={CalendarList} />
   </Route>
 );

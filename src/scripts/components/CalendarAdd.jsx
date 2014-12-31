@@ -3,8 +3,6 @@
 var React = require('react/addons');
 var LinkedStateMixin = React.addons.LinkedStateMixin;
 var classSet = React.addons.classSet;
-var Router = require('react-router');
-var Navigation = Router.Navigation;
 var CalendarActionCreators = require('../actions/CalendarActionCreators');
 var moment = require('moment');
 
@@ -18,7 +16,7 @@ var validFormats = [
 ];
 
 var CalendarAdd = React.createClass({
-  mixins: [Navigation, LinkedStateMixin],
+  mixins: [LinkedStateMixin],
   getInitialState: function() {
     return {
       timerange: '',
@@ -36,7 +34,8 @@ var CalendarAdd = React.createClass({
       timerange: timerange.isValid() ? timerange.format('x') : null,
       description: this.state.description
     });
-    this.transitionTo('/');
+    this.props.onSave();
+    this.setState(this.getInitialState());
   },
   isValid: function() {
     return this.isTimerangeValid() && this.isDescriptionValid();
@@ -47,11 +46,16 @@ var CalendarAdd = React.createClass({
   isDescriptionValid: function() {
     return this.state.description !== '';
   },
-  componentDidMount: function() {
-      var node = this.refs.timerange.getDOMNode();
-      setTimeout(function() {
-        node.focus();
-      }, 10);
+  componentDidUpdate: function(prevProps, prevState) {
+    if (!prevProps.visible && this.props.visible) {
+      this.focusDate();
+    }
+  },
+  focusDate: function() {
+    var node = this.refs.timerange.getDOMNode();
+    setTimeout(function() {
+      node.focus();
+    }, 200);
   },
   render: function () {
     var timerangeValid = this.isTimerangeValid();
@@ -68,13 +72,17 @@ var CalendarAdd = React.createClass({
     });
 
     var stylesSave = classSet({
-      'btn btn-primary': true,
-      'disabled': !this.isValid(),
-      'col-xs-12': true
+      'btn btn-primary btn-block': true,
+      'disabled': !this.isValid()
+    });
+
+    var rootStyles = classSet({
+      'calendar-add': true,
+      'hidden': !this.props.visible
     });
 
     return (
-      <div className='col-xs-12'>
+      <div className={rootStyles}>
         <h2 className='sr-only'>Vytvořit událost</h2>
         <form className='calendar-form form-horizontal' role='form' onSubmit={this.onSubmit}>
           <div className={stylesTimerange}>
@@ -91,7 +99,7 @@ var CalendarAdd = React.createClass({
               </div>
               <div id='description-describedby' className='col-sm-offset-1 col-sm-11 help-block'><small>Popis události.</small></div>
           </div>
-          <div className='col-sm-offset-1 row'>
+          <div className='col-sm-offset-1'>
             <button className={stylesSave}>Uložit</button>
           </div>
         </form>
