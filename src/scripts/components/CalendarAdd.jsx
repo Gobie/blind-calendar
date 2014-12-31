@@ -12,7 +12,9 @@ var validFormats = [
   'D.M',
   'D.M.',
   'D.M.YYYY',
-  'D.M.YYYY H:mm'
+  'D.M.YYYY H:mm',
+  'D.M H:mm',
+  'D.M. H:mm'
 ];
 
 var CalendarAdd = React.createClass({
@@ -59,7 +61,7 @@ var CalendarAdd = React.createClass({
   },
   render: function () {
     var timerangeValid = this.isTimerangeValid();
-    var descriptionValid = this.isDescriptionValid()
+    var descriptionValid = this.isDescriptionValid();
 
     var stylesTimerange = classSet({
       'form-group': true,
