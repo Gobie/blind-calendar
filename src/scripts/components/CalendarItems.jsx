@@ -107,7 +107,7 @@ var CalendarItems = React.createClass({
   },
   render: function () {
     var nodes = this.state.events.map(function(event) {
-      return <CalendarItem event={event} key={event.uid} active={event.uid === this.state.activeEventUid} onSelect={this.selectEvent} onDelete={this.removeEvent} />
+      return <CalendarItem event={event} key={event.uid} active={event.uid === this.state.activeEventUid} onSelect={this.selectEvent} onDelete={this.removeEvent} onEdit={this.props.onEdit} />
     }.bind(this));
 
     return (

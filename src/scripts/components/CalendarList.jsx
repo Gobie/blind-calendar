@@ -12,7 +12,8 @@ require('../../styles/CalendarList.styl');
 var CalendarList = React.createClass({
   getInitialState: function() {
     return {
-      addVisible: false
+      formVisible: false,
+      formEvent: null
     };
   },
   componentDidMount: function() {
@@ -23,16 +24,22 @@ var CalendarList = React.createClass({
     combokeys.unbind(['c', 'h']);
   },
   showAdd: function() {
-    this.setState({addVisible: true});
+    this.setState({formVisible: true});
   },
   hideAdd: function() {
-    this.setState({addVisible: false});
+    this.setState({formVisible: false});
+  },
+  updateEvent: function(event) {
+    this.setState({
+      formVisible: true,
+      formEvent: event
+    });
   },
   render: function () {
     return (
       <div className='calendar-list'>
-        <CalendarAdd visible={this.state.addVisible} onSave={this.hideAdd} />
-        <CalendarItems focus={!this.state.addVisible} />
+        <CalendarAdd visible={this.state.formVisible} onSave={this.hideAdd} event={this.state.formEvent} />
+        <CalendarItems focus={!this.state.formVisible} onEdit={this.updateEvent} />
       </div>
     );
   }

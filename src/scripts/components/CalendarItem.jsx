@@ -25,12 +25,16 @@ var CalendarItem = React.createClass({
   onFocus: function() {
     this.props.onSelect(this.props.event.uid);
     combokeys.bind(['d', 'del'], this.onDelete);
+    combokeys.bind(['e'], this.onEdit);
   },
   onBlur: function() {
     combokeys.unbind(['d', 'del']);
   },
   onDelete: function() {
     this.props.onDelete(this.props.event.uid);
+  },
+  onEdit: function() {
+    this.props.onEdit(this.props.event);
   },
   render: function () {
     var timeNode = 'nevyplněno';

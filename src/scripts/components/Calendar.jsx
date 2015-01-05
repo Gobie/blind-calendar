@@ -21,7 +21,7 @@ var Calendar = React.createClass({
   },
   render: function() {
     return (
-      <div role='application' className='container-fluid'>
+      <div role='application' className='calendar container-fluid'>
         <header>
           <h1>
             <span className='glyphicon glyphicon-calendar' aria-hidden='true'></span>

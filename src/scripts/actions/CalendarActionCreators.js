@@ -10,15 +10,22 @@ module.exports = {
     });
   },
 
-  save: function(data) {
-    AppDispatcher.handleServerAction({
-      type: CalendarActionConstants.SAVE,
+  create: function(data) {
+    AppDispatcher.handleViewAction({
+      type: CalendarActionConstants.CREATE,
+      data: data
+    });
+  },
+
+  update: function(data) {
+    AppDispatcher.handleViewAction({
+      type: CalendarActionConstants.UPDATE,
       data: data
     });
   },
 
   remove: function(data) {
-    AppDispatcher.handleServerAction({
+    AppDispatcher.handleViewAction({
       type: CalendarActionConstants.REMOVE,
       data: data
     });

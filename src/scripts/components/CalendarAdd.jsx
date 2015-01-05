@@ -32,10 +32,19 @@ var CalendarAdd = React.createClass({
     }
 
     var timerange = moment.utc(this.state.timerange, validFormats);
-    CalendarActionCreators.save({
-      timerange: timerange.isValid() ? timerange.format('x') : null,
-      description: this.state.description
-    });
+    timerange = timerange.isValid() ? timerange.format('x') : null;
+    if (this.props.event) {
+      CalendarActionCreators.update({
+        uid: this.props.event.uid,
+        timerange: timerange,
+        description: this.state.description
+      });
+    } else {
+      CalendarActionCreators.create({
+        timerange: timerange,
+        description: this.state.description
+      });
+    }
     this.props.onSave();
     this.setState(this.getInitialState());
   },
@@ -49,6 +58,14 @@ var CalendarAdd = React.createClass({
     return this.state.description !== '';
   },
   componentDidUpdate: function(prevProps, prevState) {
+    if (prevProps.event !== this.props.event) {
+      this.setState({
+        timerange: this.props.event && this.props.event.timerange && moment.utc(this.props.event.timerange, 'x').format('D.MM.YYYY H:mm') || '',
+        description: this.props.event && this.props.event.description || ''
+      })
+      this.focusDate();
+    }
+
     if (!prevProps.visible && this.props.visible) {
       this.focusDate();
     }
@@ -74,7 +91,7 @@ var CalendarAdd = React.createClass({
     });
 
     var stylesSave = classSet({
-      'btn btn-primary btn-block': true,
+      'btn btn-primary': true,
       'disabled': !this.isValid()
     });
 

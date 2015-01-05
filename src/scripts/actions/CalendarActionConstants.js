@@ -1,6 +1,7 @@
 var CalendarActionConstants = {
   LOAD: 'LOAD',
-  SAVE: 'SAVE',
+  CREATE: 'CREATE',
+  UPDATE: 'UPDATE',
   REMOVE: 'REMOVE'
 }
 

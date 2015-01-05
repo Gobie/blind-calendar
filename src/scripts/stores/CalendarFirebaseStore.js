@@ -40,11 +40,21 @@ CalendarFirebaseStore.dispatchToken = AppDispatcher.register(function(payload) {
       calendarRef.set(action.data);
       break;
 
-    case CalendarActionConstants.SAVE:
+    case CalendarActionConstants.CREATE:
       var event = action.data;
       event.created = _.now();
       event['.priority'] = -event.timerange;
       calendarRef.push(event);
+      break;
+
+    case CalendarActionConstants.UPDATE:
+      var event = action.data;
+      var eventRef = calendarRef.child(event.uid);
+      eventRef.setPriority(-event.timerange);
+      eventRef.update({
+        timerange: event.timerange,
+        description: event.description
+      })
       break;
 
     case CalendarActionConstants.REMOVE:
@@ -60,13 +70,22 @@ CalendarFirebaseStore.dispatchToken = AppDispatcher.register(function(payload) {
 calendarRef.orderByPriority().on('child_changed', function(snapshot) {
   var data = snapshot.val();
   data.uid = snapshot.key();
+  data.priority = snapshot.getPriority();
   var index = _.findIndex(_events, function(event) {
     return event.uid === data.uid;
   });
   if (index === -1) {
     return;
   }
-  _events.splice(index, 1, data);
+  _events.splice(index, 1);
+
+  var index = _.findIndex(_events, function(event) {
+    return event.priority <= data.priority;
+  });
+  if (index === -1) {
+    index = _events.length;
+  }
+  _events.splice(index, 0, data);
   CalendarFirebaseStore.emitChange();
 }, function(err) {
   console.log('Failed to get child_changed event from Firebase: ' + err.code);
