@@ -17,10 +17,7 @@ var CalendarItem = React.createClass({
   },
   focus: function() {
     if (this.props.active) {
-      var node = this.refs.event.getDOMNode();
-      setTimeout(function() {
-        node.focus();
-      }, 10);
+      this.refs.event.getDOMNode().focus();
     }
   },
   onFocus: function() {
