@@ -36,7 +36,7 @@ var CalendarItem = React.createClass({
   },
   render: function () {
     var timeNode = 'nevyplněno';
-    var momentTimerange = moment.utc(this.props.event.timerange, 'x');
+    var momentTimerange = moment(this.props.event.timerange, 'x');
 
     if (momentTimerange.isValid()) {
       timeNode = momentTimerange.fromNow() + ', ' + momentTimerange.format('dddd, D MMMM YYYY H:mm');
@@ -46,8 +46,8 @@ var CalendarItem = React.createClass({
     var rowStyles = classSet({
       'row calendar-item': true,
       'selected': this.props.active,
-      'today': momentTimerange.isValid() && momentTimerange.isSame(moment.utc(), 'd'),
-      'tomorrow': momentTimerange.isValid() && momentTimerange.isSame(moment.utc().add(1, 'd'), 'd')
+      'today': momentTimerange.isValid() && momentTimerange.isSame(moment(), 'd'),
+      'tomorrow': momentTimerange.isValid() && momentTimerange.isSame(moment().add(1, 'd'), 'd')
     });
 
     return (

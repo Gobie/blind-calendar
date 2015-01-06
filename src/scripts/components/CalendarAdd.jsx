@@ -5,6 +5,8 @@ var LinkedStateMixin = React.addons.LinkedStateMixin;
 var classSet = React.addons.classSet;
 var CalendarActionCreators = require('../actions/CalendarActionCreators');
 var moment = require('moment');
+var Combokeys = require('combokeys');
+var combokeys = new Combokeys(document);
 
 require('../../styles/CalendarAdd.styl');
 
@@ -17,12 +19,28 @@ var validFormats = [
   'D.M. H:mm'
 ];
 
+var timerangeToMoment = function(timerange) {
+  return moment(timerange, validFormats, true);
+}
+
+var timestampToMoment = function(timerange) {
+  return moment(timerange, 'x');
+}
+
+var formatMomentTimerange = function(momentTimerange) {
+  return momentTimerange.format('D.MM.YYYY H:mm');
+}
+
+var defaultTimerange = formatMomentTimerange(moment({h:9, m:0, s:0}).add(1, 'd'));
+
 var CalendarAdd = React.createClass({
   mixins: [LinkedStateMixin],
   getInitialState: function() {
+    var timerange = this.props.event && this.props.event.timerange && formatMomentTimerange(timestampToMoment(this.props.event.timerange));
+    var description = this.props.event && this.props.event.description;
     return {
-      timerange: '',
-      description: ''
+      timerange: timerange || defaultTimerange,
+      description: description || ''
     }
   },
   onSubmit: function (e) {
@@ -31,7 +49,7 @@ var CalendarAdd = React.createClass({
       return;
     }
 
-    var timerange = moment.utc(this.state.timerange, validFormats);
+    var timerange = timerangeToMoment(this.state.timerange);
     timerange = timerange.isValid() ? timerange.format('x') : null;
     if (this.props.event) {
       CalendarActionCreators.update({
@@ -52,23 +70,48 @@ var CalendarAdd = React.createClass({
     return this.isTimerangeValid() && this.isDescriptionValid();
   },
   isTimerangeValid: function() {
-    return this.state.timerange === '' || moment(this.state.timerange, validFormats, true).isValid();
+    return this.state.timerange === '' || timerangeToMoment(this.state.timerange).isValid();
   },
   isDescriptionValid: function() {
     return this.state.description !== '';
   },
+  componentDidMount: function() {
+    combokeys.stopCallback = function(e, element) {
+      return element !== this.refs.timerange.getDOMNode();
+    }.bind(this);
+    combokeys.bind(['up', 'down', 'shift+up', 'shift+down'], this.updateTimerange);
+    this.focusDate();
+  },
   componentDidUpdate: function(prevProps, prevState) {
     if (prevProps.event !== this.props.event) {
-      this.setState({
-        timerange: this.props.event && this.props.event.timerange && moment.utc(this.props.event.timerange, 'x').format('D.MM.YYYY H:mm') || '',
-        description: this.props.event && this.props.event.description || ''
-      })
+      this.setState(this.getInitialState());
       this.focusDate();
     }
-
-    if (!prevProps.visible && this.props.visible) {
-      this.focusDate();
+  },
+  componentWillUnmount: function() {
+    combokeys.stopCallback = function() {
+      return true;
     }
+    combokeys.unbind(['up', 'down', 'shift+up', 'shift+down']);
+  },
+  updateTimerange: function(e, key) {
+    e.preventDefault();
+    var momentTimerange = timerangeToMoment(this.state.timerange);
+    if (!momentTimerange.isValid()) {
+      return;
+    }
+    if (key === 'up') {
+      momentTimerange.add(1, 'd');
+    } else if (key === 'down') {
+      momentTimerange.add(-1, 'd');
+    } else if (key === 'shift+up') {
+      momentTimerange.add(1, 'h');
+    } else if (key === 'shift+down') {
+      momentTimerange.add(-1, 'h');
+    }
+    this.setState({
+      timerange: formatMomentTimerange(momentTimerange)
+    });
   },
   focusDate: function() {
     var node = this.refs.timerange.getDOMNode();
@@ -95,13 +138,8 @@ var CalendarAdd = React.createClass({
       'disabled': !this.isValid()
     });
 
-    var rootStyles = classSet({
-      'calendar-add': true,
-      'hidden': !this.props.visible
-    });
-
     return (
-      <div className={rootStyles}>
+      <div className='calendar-add'>
         <h2 className='sr-only'>Vytvořit událost</h2>
         <form className='calendar-form form-horizontal' role='form' onSubmit={this.onSubmit}>
           <div className={stylesTimerange}>

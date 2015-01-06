@@ -24,22 +24,25 @@ var CalendarList = React.createClass({
     combokeys.unbind(['c', 'h']);
   },
   showAdd: function() {
-    this.setState({formVisible: true});
+    this.showForm(true, null);
   },
   hideAdd: function() {
-    this.setState({formVisible: false});
+    this.showForm(false, null);
   },
-  updateEvent: function(event) {
+  showEdit: function(event) {
+    this.showForm(true, event);
+  },
+  showForm: function(visible, event) {
     this.setState({
-      formVisible: true,
+      formVisible: visible,
       formEvent: event
     });
   },
   render: function () {
     return (
       <div className='calendar-list'>
-        <CalendarAdd visible={this.state.formVisible} onSave={this.hideAdd} event={this.state.formEvent} />
-        <CalendarItems focus={!this.state.formVisible} onEdit={this.updateEvent} />
+        {this.state.formVisible ? <CalendarAdd onSave={this.hideAdd} event={this.state.formEvent} /> : ''}
+        <CalendarItems focus={!this.state.formVisible} onEdit={this.showEdit} />
       </div>
     );
   }
