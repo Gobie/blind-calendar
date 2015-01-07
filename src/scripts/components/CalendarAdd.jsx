@@ -39,7 +39,7 @@ var CalendarAdd = React.createClass({
     var timerange = this.props.event && this.props.event.timerange && formatMomentTimerange(timestampToMoment(this.props.event.timerange));
     var description = this.props.event && this.props.event.description;
     return {
-      timerange: timerange || defaultTimerange,
+      timerange: timerange || (!this.props.event && defaultTimerange) || '',
       description: description || ''
     }
   },
