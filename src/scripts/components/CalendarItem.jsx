@@ -23,10 +23,11 @@ var CalendarItem = React.createClass({
   onFocus: function() {
     this.props.onSelect(this.props.event.uid);
     combokeys.bind(['d', 'del'], this.onDelete);
-    combokeys.bind(['e'], this.onEdit);
+    combokeys.bind(['e', 'enter'], this.onEdit);
   },
   onBlur: function() {
     combokeys.unbind(['d', 'del']);
+    combokeys.unbind(['e', 'enter']);
   },
   onDelete: function() {
     this.props.onDelete(this.props.event.uid);

@@ -77,9 +77,12 @@ var CalendarAdd = React.createClass({
   },
   componentDidMount: function() {
     combokeys.stopCallback = function(e, element) {
-      return element !== this.refs.timerange.getDOMNode();
+      return element !== this.refs.timerange.getDOMNode()
+          && element !== this.refs.description.getDOMNode()
+          && element !== this.refs.save.getDOMNode();
     }.bind(this);
     combokeys.bind(['up', 'down', 'shift+up', 'shift+down'], this.updateTimerange);
+    combokeys.bind(['esc'], this.props.onClose);
     this.focusDate();
   },
   componentDidUpdate: function(prevProps, prevState) {
@@ -93,6 +96,7 @@ var CalendarAdd = React.createClass({
       return true;
     }
     combokeys.unbind(['up', 'down', 'shift+up', 'shift+down']);
+    combokeys.unbind(['esc']);
   },
   updateTimerange: function(e, key) {
     e.preventDefault();
@@ -157,7 +161,7 @@ var CalendarAdd = React.createClass({
               <div id='description-describedby' className='col-sm-offset-1 col-sm-11 help-block'><small>Popis události.</small></div>
           </div>
           <div className='col-sm-offset-1'>
-            <button className={stylesSave}>Uložit</button>
+            <button className={stylesSave} ref='save'>Uložit</button>
           </div>
         </form>
       </div>

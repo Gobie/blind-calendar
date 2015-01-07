@@ -18,10 +18,9 @@ var CalendarList = React.createClass({
   },
   componentDidMount: function() {
     combokeys.bind(['c'], this.showAdd);
-    combokeys.bind(['h'], this.hideAdd);
   },
   componentWillUnmount: function() {
-    combokeys.unbind(['c', 'h']);
+    combokeys.unbind(['c']);
   },
   showAdd: function() {
     this.showForm(true, null);
@@ -41,7 +40,7 @@ var CalendarList = React.createClass({
   render: function () {
     return (
       <div className='calendar-list'>
-        {this.state.formVisible ? <CalendarAdd onSave={this.hideAdd} event={this.state.formEvent} /> : ''}
+        {this.state.formVisible ? <CalendarAdd onSave={this.hideAdd} onClose={this.hideAdd} event={this.state.formEvent} /> : ''}
         <CalendarItems focus={!this.state.formVisible} onEdit={this.showEdit} />
       </div>
     );

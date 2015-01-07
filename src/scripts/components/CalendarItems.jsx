@@ -48,10 +48,10 @@ var CalendarItems = React.createClass({
   onChange: function() {
     this.setState(getStateFromStore());
   },
-  getIndex: function(eventUid) {
+  getIndex: function() {
     return _.findIndex(this.state.events, function(event) {
       return event.uid === this.state.activeEventUid;
-    }.bind(this))
+    }.bind(this));
   },
   moveUp: function(eventUid) {
     var activeEventIndex = this.getIndex();
@@ -88,15 +88,10 @@ var CalendarItems = React.createClass({
     });
   },
   onMove: function(e, shortcut) {
-    switch (shortcut) {
-      case 'up':
-        this.moveUp(this.state.activeEventUid);
-        break;
-      case 'down':
-        this.moveDown(this.state.activeEventUid);
-        break;
-      default:
-        throw new Error('Unhandled shortcut: ' + shortcut);
+    if (shortcut === 'up') {
+      this.moveUp(this.state.activeEventUid);
+    } else if (shortcut === 'down') {
+      this.moveDown(this.state.activeEventUid);
     }
   },
   onFocus: function() {
