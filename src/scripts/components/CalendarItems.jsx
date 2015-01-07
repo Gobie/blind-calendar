@@ -33,14 +33,7 @@ var CalendarItems = React.createClass({
   },
   componentDidMount: function() {
     CalendarFirebaseStore.listen(this.onChange);
-    if (this.props.focus) {
-      this.focusList();
-    }
-  },
-  componentDidUpdate: function(prevProps, prevState) {
-    if (!prevProps.focus && this.props.focus) {
-      this.focusList();
-    }
+    this.focusList();
   },
   componentWillUnmount: function() {
     CalendarFirebaseStore.unlisten(this.onChange);

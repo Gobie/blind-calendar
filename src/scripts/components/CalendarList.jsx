@@ -41,7 +41,7 @@ var CalendarList = React.createClass({
     return (
       <div className='calendar-list'>
         {this.state.formVisible ? <CalendarAdd onSave={this.hideAdd} onClose={this.hideAdd} event={this.state.formEvent} /> : ''}
-        <CalendarItems focus={!this.state.formVisible} onEdit={this.showEdit} />
+        <CalendarItems onEdit={this.showEdit} />
       </div>
     );
   }

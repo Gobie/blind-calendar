@@ -5,7 +5,7 @@ var _ = require('lodash');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var CalendarActionConstants = require('../actions/CalendarActionConstants');
 var Firebase = require('firebase');
-var calendarRef = new Firebase('https://luminous-fire-3770.firebaseIO.com/calendar/');
+var calendarRef = new Firebase('https://luminous-fire-3770.firebaseIO.com/calendar/active/');
 
 var CHANGE_EVENT = 'change';
 
@@ -43,16 +43,16 @@ CalendarFirebaseStore.dispatchToken = AppDispatcher.register(function(payload) {
     case CalendarActionConstants.CREATE:
       var event = action.data;
       event.created = _.now();
-      event['.priority'] = -event.timerange;
+      event['.priority'] = -event.from;
       calendarRef.push(event);
       break;
 
     case CalendarActionConstants.UPDATE:
       var event = action.data;
       var eventRef = calendarRef.child(event.uid);
-      eventRef.setPriority(-event.timerange);
+      eventRef.setPriority(-event.from);
       eventRef.update({
-        timerange: event.timerange,
+        from: event.from,
         description: event.description
       })
       break;

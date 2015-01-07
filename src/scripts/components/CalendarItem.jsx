@@ -37,7 +37,7 @@ var CalendarItem = React.createClass({
   },
   render: function () {
     var timeNode = 'nevyplněno';
-    var momentTimerange = moment(this.props.event.timerange, 'x');
+    var momentTimerange = moment(this.props.event.from, 'x');
 
     if (momentTimerange.isValid()) {
       timeNode = momentTimerange.fromNow() + ', ' + momentTimerange.format('dddd, D MMMM YYYY H:mm');
