@@ -7,6 +7,7 @@ var CalendarActionCreators = require('../actions/CalendarActionCreators');
 var moment = require('moment');
 var Combokeys = require('combokeys');
 var combokeys = new Combokeys(document);
+var combokeysGlobal = new Combokeys(document);
 
 require('../../styles/CalendarAdd.styl');
 
@@ -77,12 +78,18 @@ var CalendarAdd = React.createClass({
   },
   componentDidMount: function() {
     combokeys.stopCallback = function(e, element) {
+      return element !== this.refs.timerange.getDOMNode();
+    }.bind(this);
+    combokeys.bind(['up', 'down', 'shift+up', 'shift+down'], this.updateTimerange);
+
+    combokeysGlobal.stopCallback = function(e, element) {
       return element !== this.refs.timerange.getDOMNode()
           && element !== this.refs.description.getDOMNode()
           && element !== this.refs.save.getDOMNode();
     }.bind(this);
-    combokeys.bind(['up', 'down', 'shift+up', 'shift+down'], this.updateTimerange);
-    combokeys.bind(['esc'], this.props.onClose);
+    combokeysGlobal.bind(['esc'], this.props.onClose);
+    combokeysGlobal.bind(['ctrl+enter'], this.onSubmit);
+
     this.focusDate();
   },
   componentDidUpdate: function(prevProps, prevState) {
@@ -96,7 +103,7 @@ var CalendarAdd = React.createClass({
       return true;
     }
     combokeys.unbind(['up', 'down', 'shift+up', 'shift+down']);
-    combokeys.unbind(['esc']);
+    combokeysGlobal.unbind(['esc', 'ctrl+enter']);
   },
   updateTimerange: function(e, key) {
     e.preventDefault();
