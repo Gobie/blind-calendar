@@ -2,10 +2,11 @@
 
 var EventEmitter = require('events').EventEmitter;
 var _ = require('lodash');
+var config = require('../../../config');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var CalendarActionConstants = require('../actions/CalendarActionConstants');
 var Firebase = require('firebase');
-var calendarRef = new Firebase('https://luminous-fire-3770.firebaseIO.com/calendar/active/');
+var calendarRef = new Firebase(config.firebase_url + '/calendar/active/');
 
 var CHANGE_EVENT = 'change';
 
