@@ -1,8 +1,8 @@
 {
-  "name": "blind",
-  "version": "0.0.0",
+  "name": "blind-calendar",
+  "version": "0.0.1",
   "description": "",
-  "repository": "",
+  "repository": "https://github.com/Gobie/blind-calendar/",
   "private": true,
   "src": "src",
   "test": "test",

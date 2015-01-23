@@ -108,7 +108,7 @@ module.exports = function (grunt) {
 
     shell: {
       deploy: {
-        command: 'git commit -am \'build\' && git push heroku && exit 0'
+        command: 'git commit -am \'build\' && git push heroku master && exit 0'
       }
     }
   });
