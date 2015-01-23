@@ -1,3 +1,10 @@
 /bower_components/
 /src/
 /test/
+/.editorconfig
+/.jshintrc
+/.yo-rc.json
+/*.sublime-project
+/*.js
+/*.json
+/*.md

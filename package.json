@@ -14,15 +14,15 @@
     "npm": "1.2.x"
   },
   "dependencies": {
+  },
+  "devDependencies": {
     "combokeys": "~2.1.0",
     "firebase": "~2.0.6",
     "flux": "^2.0.1",
     "lodash": "~2.4.1",
     "moment": "~2.8.4",
     "react": "~0.12.0",
-    "react-router": "~0.11.0"
-  },
-  "devDependencies": {
+    "react-router": "~0.11.0",
     "css-loader": "~0.9.0",
     "extract-text-webpack-plugin": "^0.3.5",
     "grunt": "~0.4.5",
