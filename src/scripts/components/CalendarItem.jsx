@@ -40,7 +40,7 @@ var CalendarItem = React.createClass({
     var momentTimerange = moment(this.props.event.from, 'x');
 
     if (momentTimerange.isValid()) {
-      timeNode = momentTimerange.fromNow() + ', ' + momentTimerange.format('dddd, D MMMM YYYY H:mm');
+      timeNode = momentTimerange.format('dddd, D MMMM YYYY H:mm');
     }
 
     var tabIndex = this.props.active ? '0' : '-1';
@@ -48,7 +48,8 @@ var CalendarItem = React.createClass({
       'row calendar-item': true,
       'selected': this.props.active,
       'today': momentTimerange.isValid() && momentTimerange.isSame(moment(), 'd'),
-      'tomorrow': momentTimerange.isValid() && momentTimerange.isSame(moment().add(1, 'd'), 'd')
+      'tomorrow': momentTimerange.isValid() && momentTimerange.isSame(moment().add(1, 'd'), 'd'),
+      'duplicate': this.props.event.duplicate
     });
 
     return (
