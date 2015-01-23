@@ -17,10 +17,10 @@ var CalendarList = React.createClass({
     };
   },
   componentDidMount: function() {
-    combokeys.bind(['c'], this.showAdd);
+    combokeys.bind(['n'], this.showAdd);
   },
   componentWillUnmount: function() {
-    combokeys.unbind(['c']);
+    combokeys.unbind(['n']);
   },
   showAdd: function() {
     this.showForm(true, null);
