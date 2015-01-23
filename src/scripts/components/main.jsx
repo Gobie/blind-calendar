@@ -9,6 +9,10 @@ moment.locale('cs');
 var Calendar = require('./Calendar');
 var CalendarList = require('./CalendarList');
 
+var StatusMonitorFirebaseUtils = require('../utils/StatusMonitorFirebaseUtils');
+var status = new StatusMonitorFirebaseUtils;
+status.monitor();
+
 var routes = (
   <Route path='/' handler={Calendar}>
     <DefaultRoute handler={CalendarList} />

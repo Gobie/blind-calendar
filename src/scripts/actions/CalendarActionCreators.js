@@ -1,7 +1,7 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var CalendarActionConstants = require('./CalendarActionConstants');
 
-module.exports = {
+var CalendarActionCreators = {
 
   receive: function(data) {
     AppDispatcher.handleServerAction({
@@ -32,3 +32,5 @@ module.exports = {
   },
 
 };
+
+module.exports = CalendarActionCreators;
