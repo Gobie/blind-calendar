@@ -7,6 +7,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var CalendarActionConstants = require('../actions/CalendarActionConstants');
 var Firebase = require('firebase');
 var calendarRef = new Firebase(config.firebase_url + '/calendar/active/');
+var moment = require('moment');
 
 var CHANGE_EVENT = 'change';
 
@@ -31,6 +32,20 @@ var CalendarFirebaseStore = _.create(EventEmitter.prototype, {
       event.duplicate = _.where(_events, { from: event.from }).length !== 1;
       return event;
     });
+  },
+
+  getNextEvent: function() {
+    var now = +moment();
+    var futureEvent = _.find(_events, function(event) {
+      return event.from >= now;
+    });
+
+    if (futureEvent) {
+      return futureEvent;
+    } else if (_events.length) {
+      return _events[_events.length - 1];
+    }
+    return null;
   }
 
 });
@@ -75,6 +90,7 @@ calendarRef.orderByPriority().on('child_changed', function(snapshot) {
   var data = snapshot.val();
   data.uid = snapshot.key();
   data.priority = snapshot.getPriority();
+  data.from = +data.from;
   var index = _.findIndex(_events, function(event) {
     return event.uid === data.uid;
   });
@@ -113,6 +129,7 @@ calendarRef.orderByPriority().on('child_added', function(snapshot) {
   var data = snapshot.val();
   data.uid = snapshot.key();
   data.priority = snapshot.getPriority();
+  data.from = +data.from;
   var index = _.findIndex(_events, function(event) {
     return event.uid === data.uid;
   });

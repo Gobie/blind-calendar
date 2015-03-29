@@ -25,21 +25,27 @@ var CalendarItems = React.createClass({
     }
     return state;
   },
-  focusList: function() {
-    var node = this.refs.items.getDOMNode();
-    setTimeout(function() {
-      node.focus();
-    }, 200);
-  },
   componentDidMount: function() {
     CalendarFirebaseStore.listen(this.onChange);
-    this.focusList();
   },
   componentWillUnmount: function() {
     CalendarFirebaseStore.unlisten(this.onChange);
   },
+  scheduleFocus: function() {
+    if (!this.focused) {
+      clearTimeout(this.focusTimer);
+      this.focusTimer = setTimeout(function() {
+        var nextEvent = CalendarFirebaseStore.getNextEvent();
+        if (nextEvent) {
+          this.setState({activeEventUid: nextEvent.uid});
+          this.focused = true;
+        }
+      }.bind(this), 100);
+    }
+  },
   onChange: function() {
     this.setState(getStateFromStore());
+    this.scheduleFocus();
   },
   getIndex: function() {
     return _.findIndex(this.state.events, function(event) {
@@ -95,13 +101,14 @@ var CalendarItems = React.createClass({
   },
   render: function () {
     var nodes = this.state.events.map(function(event) {
-      return <CalendarItem event={event} key={event.uid} active={event.uid === this.state.activeEventUid} onSelect={this.selectEvent} onDelete={this.removeEvent} onEdit={this.props.onEdit} />
+      var active = event.uid === this.state.activeEventUid;
+      return <CalendarItem event={event} key={event.uid} active={active} onSelect={this.selectEvent} onDelete={this.removeEvent} onEdit={this.props.onEdit} />
     }.bind(this));
 
     return (
       <div className='calendar-items'>
         <h2 id='calendar-items-label' className='sr-only'>Události</h2>
-        <div className='calendar-items' tabIndex='0' role='listbox' ref='items' onFocus={this.onFocus} onBlur={this.onBlur} aria-labelledby='calendar-items-label' aria-live='polite'>
+        <div className='calendar-items-container' tabIndex='0' role='listbox' onFocus={this.onFocus} onBlur={this.onBlur} aria-labelledby='calendar-items-label' aria-live='polite'>
           {nodes}
         </div>
       </div>
