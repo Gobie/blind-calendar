@@ -156,7 +156,7 @@ var CalendarAdd = React.createClass({
           <div className={stylesFrom}>
               <label id='from-labelledby' htmlFor='from' className='control-label col-sm-1'>Od</label>
               <div className='col-sm-11'>
-                <input type='text' className='form-control' id='from' ref='from' placeholder='1.1.2014' aria-required='false' aria-invalid={fromValid ? undefined : true} aria-labelledby='from-labelledby' aria-describedby='from-describedby' valueLink={this.linkState('from')} />
+                <input type='text' className='form-control' id='from' ref='from' aria-required='false' aria-invalid={fromValid ? undefined : true} aria-labelledby='from-labelledby' aria-describedby='from-describedby' valueLink={this.linkState('from')} />
               </div>
               <div id='from-describedby' className='col-sm-offset-1 col-sm-11 help-block'><small>Validní formáty jsou {validFormats.join(', ')}.</small></div>
           </div>
