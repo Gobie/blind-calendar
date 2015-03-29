@@ -27,25 +27,27 @@ var CalendarItems = React.createClass({
   },
   componentDidMount: function() {
     CalendarFirebaseStore.listen(this.onChange);
+    combokeys.bind(['r'], this.scheduleFocus);
   },
   componentWillUnmount: function() {
+    combokeys.unbind(['r']);
     CalendarFirebaseStore.unlisten(this.onChange);
   },
   scheduleFocus: function() {
-    if (!this.focused) {
-      clearTimeout(this.focusTimer);
-      this.focusTimer = setTimeout(function() {
-        var nextEvent = CalendarFirebaseStore.getNextEvent();
-        if (nextEvent) {
-          this.setState({activeEventUid: nextEvent.uid});
-          this.focused = true;
-        }
-      }.bind(this), 100);
-    }
+    clearTimeout(this.focusTimer);
+    this.focusTimer = setTimeout(function() {
+      var nextEvent = CalendarFirebaseStore.getNextEvent();
+      if (nextEvent) {
+        this.setState({activeEventUid: nextEvent.uid});
+        this.focused = true;
+      }
+    }.bind(this), 100);
   },
   onChange: function() {
     this.setState(getStateFromStore());
-    this.scheduleFocus();
+    if (!this.focused) {
+      this.scheduleFocus();
+    }
   },
   getIndex: function() {
     return _.findIndex(this.state.events, function(event) {
