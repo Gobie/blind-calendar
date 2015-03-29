@@ -49,6 +49,7 @@ var CalendarItem = React.createClass({
       'selected': this.props.active,
       'today': momentTimerange.isValid() && momentTimerange.isSame(moment(), 'd'),
       'tomorrow': momentTimerange.isValid() && momentTimerange.isSame(moment().add(1, 'd'), 'd'),
+      'note': !this.props.event.from,
       'duplicate': this.props.event.duplicate
     });
 
