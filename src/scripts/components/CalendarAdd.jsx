@@ -64,8 +64,8 @@ var CalendarAdd = React.createClass({
         description: this.state.description
       });
     }
-    this.props.onSave();
     this.setState(this.getInitialState());
+    this.props.onSave();
   },
   isValid: function() {
     return this.isFromValid() && this.isDescriptionValid();
