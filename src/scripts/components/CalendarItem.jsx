@@ -36,7 +36,7 @@ var CalendarItem = React.createClass({
     this.props.onEdit(this.props.event);
   },
   render: function () {
-    var timeNode = 'nevyplněno';
+    var timeNode = 'Poznámka';
     var momentTimerange = moment(this.props.event.from, 'x');
 
     if (momentTimerange.isValid()) {
