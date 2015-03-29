@@ -10,10 +10,14 @@
   "mainInput": "main",
   "mainOutput": "main",
   "engines": {
-    "node": "0.10.x",
-    "npm": "1.2.x"
+    "node": "0.10.x"
   },
-  "dependencies": {},
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "harp": "~0.12.1"
+  },
   "devDependencies": {
     "combokeys": "~2.1.0",
     "css-loader": "^0.9.1",
