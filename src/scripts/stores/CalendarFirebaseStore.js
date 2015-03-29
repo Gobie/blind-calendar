@@ -29,7 +29,9 @@ var CalendarFirebaseStore = _.create(EventEmitter.prototype, {
 
   getAll: function() {
     return _events.map(function(event) {
-      event.duplicate = _.where(_events, { from: event.from }).length !== 1;
+      if (event.from) {
+        event.duplicate = _.where(_events, { from: event.from }).length !== 1;
+      }
       return event;
     });
   },
