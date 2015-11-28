@@ -3,6 +3,7 @@
 var EventEmitter = require('events').EventEmitter;
 var _ = require('lodash');
 var config = require('../../../config');
+var throttle = require('../utils/throttle');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var CalendarActionConstants = require('../actions/CalendarActionConstants');
 var Firebase = require('firebase');
@@ -15,9 +16,9 @@ var _events = [];
 
 var CalendarFirebaseStore = _.create(EventEmitter.prototype, {
 
-  emitChange: function() {
+  emitChange: throttle(function () {
     this.emit(CHANGE_EVENT);
-  },
+  }, 50),
 
   listen: function(callback) {
     this.on(CHANGE_EVENT, callback);
