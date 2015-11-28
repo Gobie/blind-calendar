@@ -8,6 +8,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var CalendarActionConstants = require('../actions/CalendarActionConstants');
 var Firebase = require('firebase');
 var calendarRef = new Firebase(config.firebase_url + '/calendar/active/');
+var calendarArchiveRef = new Firebase(config.firebase_url + '/calendar/archive/');
 var moment = require('moment');
 
 var CHANGE_EVENT = 'change';
@@ -133,6 +134,19 @@ calendarRef.orderByPriority().on('child_added', function(snapshot) {
   data.uid = snapshot.key();
   data.priority = snapshot.getPriority();
   data.from = +data.from;
+
+  // archive notes older than 30 days
+  if (data.from !== 0 && Date.now() - data.from > 30 * 24 * 3600 * 1000) {
+    var eventRef = calendarArchiveRef.child(data.uid);
+    eventRef.setPriority(-data.from);
+    eventRef.update({
+      from: data.from,
+      description: data.description
+    });
+
+    return calendarRef.child(data.uid).remove();
+  }
+
   var index = _.findIndex(_events, function(event) {
     return event.uid === data.uid;
   });
