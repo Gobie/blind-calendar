@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var React = require('react/addons');
 var CalendarItems = require('./CalendarItems');
+var CalendarArchiveItems = require('./CalendarArchiveItems');
 var CalendarAdd = require('./CalendarAdd');
 var Combokeys = require('combokeys');
 var combokeys = new Combokeys(document);
@@ -13,13 +14,16 @@ var CalendarList = React.createClass({
   getInitialState: function() {
     return {
       formVisible: false,
-      formEvent: null
+      formEvent: null,
+      archive: false
     };
   },
   componentDidMount: function() {
     combokeys.bind(['n'], this.showAdd);
+    combokeys.bind(['1', '2'], this.handleNavigation);
   },
   componentWillUnmount: function() {
+    combokeys.unbind(['1', '2']);
     combokeys.unbind(['n']);
   },
   showAdd: function() {
@@ -37,11 +41,20 @@ var CalendarList = React.createClass({
       formEvent: event
     });
   },
+  handleNavigation: function(e, shortcut) {
+    if (shortcut === '1') {
+      this.state.archive = false;
+    } else if (shortcut === '2') {
+      this.state.archive = true;
+    }
+    this.state.formVisible = false;
+    this.forceUpdate();
+  },
   render: function () {
     return (
       <div className='calendar-list'>
         {this.state.formVisible ? <CalendarAdd onSave={this.hideAdd} onClose={this.hideAdd} event={this.state.formEvent} /> : ''}
-        <CalendarItems onEdit={this.showEdit} />
+        {this.state.archive ? <CalendarArchiveItems onEdit={function() {}} /> : <CalendarItems onEdit={this.showEdit} />}
       </div>
     );
   }

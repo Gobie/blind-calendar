@@ -138,11 +138,12 @@ calendarRef.orderByPriority().on('child_added', function(snapshot) {
   // archive notes older than 30 days
   if (data.from !== 0 && Date.now() - data.from > 30 * 24 * 3600 * 1000) {
     var eventRef = calendarArchiveRef.child(data.uid);
-    eventRef.setPriority(-data.from);
     eventRef.update({
       from: data.from,
-      description: data.description
+      description: data.description,
+      created: data.created
     });
+    eventRef.setPriority(-data.from);
 
     return calendarRef.child(data.uid).remove();
   }
