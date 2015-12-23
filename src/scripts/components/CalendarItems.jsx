@@ -28,8 +28,10 @@ var CalendarItems = React.createClass({
   componentDidMount: function() {
     CalendarFirebaseStore.listen(this.onChange);
     combokeys.bind(['r'], this.scheduleFocus);
+    combokeys.bind(['p'], this.jumpToNote);
   },
   componentWillUnmount: function() {
+    combokeys.unbind(['p']);
     combokeys.unbind(['r']);
     CalendarFirebaseStore.unlisten(this.onChange);
   },
@@ -40,6 +42,15 @@ var CalendarItems = React.createClass({
       if (nextEvent) {
         this.setState({activeEventUid: nextEvent.uid});
         this.focused = true;
+      }
+    }.bind(this), 100);
+  },
+  jumpToNote: function() {
+    clearTimeout(this.focusTimer);
+    this.focusTimer = setTimeout(function() {
+      var nextEvent = CalendarFirebaseStore.getNextNote(this.state.activeEventUid);
+      if (nextEvent) {
+        this.setState({activeEventUid: nextEvent.uid});
       }
     }.bind(this), 100);
   },

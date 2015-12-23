@@ -50,6 +50,18 @@ var CalendarFirebaseStore = _.create(EventEmitter.prototype, {
       return _events[_events.length - 1];
     }
     return null;
+  },
+
+  getNextNote: function(eventUid) {
+    var visited = false;
+    var notePresent = false;
+    var futureEvent = _.find(_events, function(event) {
+      visited = (visited || event.uid === eventUid);
+      notePresent = (notePresent || !event.from);
+      return !event.from && visited && event.uid !== eventUid;
+    });
+
+    return futureEvent ? futureEvent : notePresent ? _events[0] : null;
   }
 
 });
