@@ -7,6 +7,7 @@
 
 'use strict';
 var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
 
@@ -42,11 +43,11 @@ module.exports = {
       test: /\.jsx$/,
       loader: 'react-hot!jsx-loader?harmony'
     }, {
-      test: /\.styl/,
-      loader: 'style-loader!css-loader!stylus-loader'
-    }, {
       test: /\.css$/,
-      loader: 'style-loader!css-loader'
+      loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+    }, {
+      test: /\.styl/,
+      loader: ExtractTextPlugin.extract('style-loader', 'css-loader!stylus-loader')
     }, {
       test: /\.(png|jpg)$/,
       loader: 'url-loader?limit=8192'
@@ -70,7 +71,8 @@ module.exports = {
 
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new ExtractTextPlugin('[name].css')
   ]
 
 };

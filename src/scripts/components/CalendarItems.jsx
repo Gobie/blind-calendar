@@ -120,7 +120,7 @@ var CalendarItems = React.createClass({
 
     return (
       <div className='calendar-items'>
-        <h2 id='calendar-items-label' className='sr-only'>Události</h2>
+        <h2 id='calendar-items-label' className='sr-only'>Aktivní události</h2>
         <div className='calendar-items-container' tabIndex='0' role='listbox' onFocus={this.onFocus} onBlur={this.onBlur} aria-labelledby='calendar-items-label' aria-live='polite'>
           {nodes}
         </div>
